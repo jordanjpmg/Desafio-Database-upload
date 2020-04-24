@@ -1,12 +1,13 @@
 // import AppError from '../errors/AppError';
 
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
+import TransactionsRepository from '../repositories/TransactionsRepository';
 import Transaction from '../models/Transaction';
 
 interface Request {
   title: string;
   value: number;
-  type: string;
+  type: 'income' | 'outcome';
   category: string;
 }
 
@@ -17,7 +18,16 @@ class CreateTransactionService {
     type,
     category,
   }: Request): Promise<Transaction> {
-    const categoryRepository = getRepository(Transaction);
+    const transactionsRepository = getCustomRepository(TransactionsRepository);
+
+    const transaction = transactionsRepository.create({
+      title,
+      value,
+      type,
+    });
+
+    await transactionsRepository.save(transaction);
+    return transaction;
   }
 }
 
