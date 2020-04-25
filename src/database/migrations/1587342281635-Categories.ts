@@ -18,10 +18,6 @@ export default class Categories1587342281635 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'type',
-            type: 'varchar',
-          },
-          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
